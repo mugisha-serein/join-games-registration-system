@@ -1,0 +1,134 @@
+/* Mobile usability overrides loaded after global.css and form.css. */
+
+/*
+ * Keep custom radio cards fully tappable. The transparent radio covers the
+ * complete label instead of becoming a 1px element with pointer events off.
+ */
+.join-type-card input[type='radio'],
+.choice-option input[type='radio'] {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* JavaScript fallbacks for browsers with incomplete :has() support. */
+.join-type-card.selected {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.join-type-card.selected .card-icon {
+  border-color: rgba(185, 28, 28, 0.22);
+  background: #ffffff;
+  color: var(--primary);
+}
+
+.join-type-card.selected .selection-indicator {
+  display: grid;
+}
+
+.choice-option.selected-agree {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.choice-option.selected-disagree {
+  border-color: var(--error);
+  background: #fef2f2;
+}
+
+.choice-option.selected-agree .choice-indicator,
+.choice-option.selected-disagree .choice-indicator {
+  display: grid;
+}
+
+.choice-option.selected-agree .choice-indicator {
+  background: var(--primary);
+}
+
+.choice-option.selected-disagree .choice-indicator {
+  background: var(--error);
+}
+
+.join-type-card:focus-within,
+.choice-option:focus-within {
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+@media (max-width: 700px) {
+  .terms-page {
+    height: auto;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .terms-layout {
+    height: auto;
+    min-height: 100dvh;
+    padding-top: max(14px, env(safe-area-inset-top));
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(14px, env(safe-area-inset-left));
+  }
+
+  .terms-card {
+    min-height: auto;
+    flex: none;
+    overflow: visible;
+  }
+
+  .terms-content-layout {
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .terms-box {
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    flex: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    scrollbar-gutter: auto;
+  }
+
+  .agreement-panel {
+    height: auto;
+    min-height: auto;
+  }
+
+  #registration-step2-form {
+    min-height: auto;
+  }
+
+  .terms-form-actions,
+  .terms-actions {
+    margin-top: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .terms-form-actions .btn,
+  .terms-actions .btn {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .terms-form-actions,
+  .terms-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .terms-form-actions .btn-secondary span,
+  .terms-actions .btn-secondary span {
+    display: inline;
+  }
+}

@@ -8,57 +8,60 @@ document.addEventListener('DOMContentLoaded', () => {
   const disagreeLabel = document.getElementById('label-disagree');
   const disagreeAlert = document.getElementById('disagree-alert');
   const toastContainer = document.getElementById('toast-container');
+  const storageKey = 'registrationData';
+  const storageMaxAge = 30 * 60 * 1000;
 
-  // Retrieve Step 1 data
-  const rawData = sessionStorage.getItem('registrationData');
-  if (!rawData) {
-    showToast('Session Expired', 'No registration details found. Redirecting to Step 1...', 'warning');
-    setTimeout(() => {
-      window.location.href = '/index.html';
-    }, 2000);
-    return;
-  }
+  function getStoredRegistration() {
+    const raw = localStorage.getItem(storageKey) || sessionStorage.getItem(storageKey);
+    if (!raw) return null;
 
-  let registrationData = {};
-  try {
-    registrationData = JSON.parse(rawData);
-  } catch (e) {
-    showToast('Session Error', 'Corrupted registration details. Redirecting to Step 1...', 'danger');
-    setTimeout(() => {
-      window.location.href = '/index.html';
-    }, 2000);
-    return;
-  }
-
-  // Handle choice selectors visual highlights
-  agreeRadio.addEventListener('change', () => {
-    agreeLabel.classList.add('selected-agree');
-    disagreeLabel.classList.remove('selected-disagree');
-    disagreeAlert.classList.remove('show');
-    btnSubmit.disabled = false;
-  });
-
-  disagreeRadio.addEventListener('change', () => {
-    disagreeLabel.classList.add('selected-disagree');
-    agreeLabel.classList.remove('selected-agree');
-    disagreeAlert.classList.add('show');
-    btnSubmit.disabled = true;
-  });
-
-  // Handle back button with transition
-  btnBack.addEventListener('click', () => {
-    const card = document.querySelector('.form-card');
-    if (card) {
-      card.classList.add('fade-out');
-      setTimeout(() => {
-        window.location.href = '/index.html';
-      }, 300);
-    } else {
-      window.location.href = '/index.html';
+    try {
+      const data = JSON.parse(raw);
+      if (data.savedAt && Date.now() - data.savedAt > storageMaxAge) {
+        localStorage.removeItem(storageKey);
+        sessionStorage.removeItem(storageKey);
+        return null;
+      }
+      return data;
+    } catch (error) {
+      console.error('Invalid stored registration data', error);
+      localStorage.removeItem(storageKey);
+      sessionStorage.removeItem(storageKey);
+      return null;
     }
+  }
+
+  const registrationData = getStoredRegistration();
+  if (!registrationData) {
+    showToast('Session Expired', 'Please enter your registration details again.', 'warning');
+    setTimeout(() => {
+      window.location.href = '/index.html';
+    }, 1500);
+    return;
+  }
+
+  function updateAgreementState(value) {
+    const agrees = value === 'agree';
+
+    agreeRadio.checked = agrees;
+    disagreeRadio.checked = !agrees;
+    agreeLabel.classList.toggle('selected-agree', agrees);
+    disagreeLabel.classList.toggle('selected-disagree', !agrees);
+    disagreeAlert.hidden = agrees;
+    disagreeAlert.classList.toggle('show', !agrees);
+    btnSubmit.disabled = !agrees;
+  }
+
+  agreeRadio.addEventListener('change', () => updateAgreementState('agree'));
+  disagreeRadio.addEventListener('change', () => updateAgreementState('disagree'));
+
+  agreeLabel.addEventListener('click', () => updateAgreementState('agree'));
+  disagreeLabel.addEventListener('click', () => updateAgreementState('disagree'));
+
+  btnBack.addEventListener('click', () => {
+    window.location.href = '/index.html';
   });
 
-  // Helper: Show toast notification
   function showToast(title, message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
@@ -67,40 +70,40 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="toast-title">${escapeHtml(title)}</div>
         <div class="toast-message">${escapeHtml(message)}</div>
       </div>
-      <button class="toast-close"><i class="fa-solid fa-xmark"></i></button>
+      <button type="button" class="toast-close" aria-label="Close notification">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
     `;
-    
-    toastContainer.appendChild(toast);
 
-    toast.querySelector('.toast-close').addEventListener('click', () => {
-      toast.remove();
-    });
+    toastContainer.appendChild(toast);
+    toast.querySelector('.toast-close').addEventListener('click', () => toast.remove());
 
     setTimeout(() => {
       toast.style.opacity = '0';
-      toast.style.transition = 'opacity 0.5s ease';
-      setTimeout(() => toast.remove(), 500);
+      toast.style.transition = 'opacity 0.2s ease';
+      setTimeout(() => toast.remove(), 200);
     }, 4000);
   }
 
-  function escapeHtml(str) {
-    return str.replace(/[&<>'"]/g, 
-      tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  function escapeHtml(value) {
+    return String(value).replace(
+      /[&<>'"]/g,
+      (tag) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[tag]
     );
   }
 
-  // Form Submission
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
     if (!agreeRadio.checked) {
-      showToast('Action Required', 'You must agree to the terms to proceed.', 'warning');
+      showToast('Action Required', 'You must agree to the terms before submitting.', 'warning');
+      agreeLabel.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
-    // Set loading state
     btnSubmit.disabled = true;
     btnSubmit.classList.add('loading');
+    btnSubmit.setAttribute('aria-busy', 'true');
 
     const payload = {
       fullName: registrationData.fullName,
@@ -108,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
       shortComment: registrationData.shortComment,
       joinType: registrationData.joinType,
       termsAccepted: true,
-      termsVersion: '1.0' // Match backend schema requirements
+      termsVersion: '1.0'
     };
 
     try {
@@ -120,28 +123,30 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(payload)
       });
 
-      const result = await response.json();
+      let result = {};
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
 
       if (!response.ok) {
-        throw new Error(result.message || 'Failed to submit registration');
+        if (response.status === 429) {
+          throw new Error('Too many attempts from this network. Please wait 15 minutes and try again.');
+        }
+        throw new Error(result.message || 'Failed to submit registration. Please try again.');
       }
 
-      // Successful registration with transition
-      sessionStorage.removeItem('registrationData');
-      const card = document.querySelector('.form-card');
-      if (card) {
-        card.classList.add('fade-out');
-        setTimeout(() => {
-          window.location.href = '/success.html';
-        }, 300);
-      } else {
-        window.location.href = '/success.html';
-      }
+      localStorage.removeItem(storageKey);
+      sessionStorage.removeItem(storageKey);
+      window.location.href = '/success.html';
     } catch (error) {
       console.error('Registration submission error:', error);
       showToast('Registration Error', error.message || 'An error occurred during submission.', 'danger');
       btnSubmit.disabled = false;
       btnSubmit.classList.remove('loading');
+      btnSubmit.removeAttribute('aria-busy');
+      btnSubmit.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   });
 });
