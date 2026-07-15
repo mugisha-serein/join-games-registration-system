@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ninja Registration - Step 2</title>
+  <meta name="description" content="Register to join the Ninja Family Region or play the TikTok Game. Step 2: Terms and Conditions.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/form.css">
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-card fade-in">
+      <div class="brand-header">
+        <div class="brand-icon">
+          <i class="fa-solid fa-file-contract"></i>
+        </div>
+        <h1>Terms & Conditions</h1>
+        <p>Step 2: Please read and accept the terms of service</p>
+      </div>
+
+      <!-- Step Progress Bar -->
+      <div class="step-progress step-2">
+        <div class="progress-bar-fill"></div>
+        <div class="step-node completed">
+          <i class="fa-solid fa-check"></i>
+          <span class="step-label">Details</span>
+        </div>
+        <div class="step-node active">
+          2
+          <span class="step-label">Terms</span>
+        </div>
+      </div>
+
+      <!-- Terms & Conditions Box -->
+      <div class="terms-box">
+        <h3>1. Community Rules</h3>
+        <p>Our community values collaboration, learning, and stealth. All members must abide by the rules of the ninja region and respect their fellow brothers and sisters.</p>
+
+        <h3>2. Respectful Behaviour</h3>
+        <p>Harassment, spam, toxic language, and disrespectful behaviour will not be tolerated under any circumstances. We hold ourselves to the highest standards of honour.</p>
+
+        <h3>3. Data Use Notice</h3>
+        <p>Your name and phone number are collected solely for the purposes of managing your membership, moderating join requests, and sending region notifications. We will never sell your personal data to third parties.</p>
+
+        <h3>4. Approval Process</h3>
+        <p>All registrations enter a pending queue. Authenticated region administrators review every request manually. You will receive access details once approved.</p>
+
+        <h3>5. Ban & Removal Policy</h3>
+        <p>Administrators reserve the right to ban or remove users who violate community terms. Banned accounts are permanently restricted from re-registration.</p>
+
+        <h3>6. Admin Moderation Rights</h3>
+        <p>Administrators maintain absolute moderation rights to approve, ban, soft-delete (remove), and restore member profiles in accordance with community safety rules.</p>
+      </div>
+
+      <!-- Form Step 2 -->
+      <form id="registration-step2-form" novalidate>
+        <div class="agreement-choices">
+          <label class="choice-option" id="label-agree" for="agree">
+            <input type="radio" id="agree" name="termsAgreement" value="agree" required>
+            <span>I Agree</span>
+          </label>
+          
+          <label class="choice-option" id="label-disagree" for="disagree">
+            <input type="radio" id="disagree" name="termsAgreement" value="disagree" required>
+            <span>I Do Not Agree</span>
+          </label>
+        </div>
+
+        <!-- Non-acceptance warning -->
+        <div class="disclaimer-alert" id="disagree-alert">
+          <i class="fa-solid fa-circle-exclamation"></i> Registration cannot continue. You must accept the terms to complete registration.
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> <span>Back</span>
+          </button>
+          <button type="submit" class="btn btn-primary" id="btn-submit" disabled>
+            <span>Submit Registration</span> <i class="fa-solid fa-circle-check"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/js/terms.js"></script>
+</body>
+</html>

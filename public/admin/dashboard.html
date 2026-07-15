@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Ninja Registration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Top Navigation Bar -->
+    <nav class="dashboard-nav">
+      <div class="nav-brand">
+        <div class="nav-brand-icon">
+          <i class="fa-solid fa-mask"></i>
+        </div>
+        <h2>Ninja Dashboard</h2>
+      </div>
+      <div class="nav-right">
+        <!-- Live connection indicator -->
+        <div class="connection-status disconnected" id="connection-indicator">
+          <span class="status-dot"></span>
+          <span class="status-text">Disconnected</span>
+        </div>
+        <button class="btn-logout" id="btn-logout">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </nav>
+
+    <main class="dashboard-content">
+      <!-- Statistics Cards Row -->
+      <section class="stats-grid">
+        <div class="stat-card total">
+          <span class="stat-title">Total Registrations</span>
+          <span class="stat-value" id="stat-total">0</span>
+          <span class="stat-subtitle">All records in database</span>
+        </div>
+        <div class="stat-card pending">
+          <span class="stat-title">Pending Review</span>
+          <span class="stat-value" id="stat-pending">0</span>
+          <span class="stat-subtitle">Awaiting decision</span>
+        </div>
+        <div class="stat-card approved">
+          <span class="stat-title">Approved Members</span>
+          <span class="stat-value" id="stat-approved">0</span>
+          <span class="stat-subtitle">Active access granted</span>
+        </div>
+        <div class="stat-card banned">
+          <span class="stat-title">Banned Accounts</span>
+          <span class="stat-value" id="stat-banned">0</span>
+          <span class="stat-subtitle">Restricted profiles</span>
+        </div>
+        <div class="stat-card removed">
+          <span class="stat-title">Removed (Soft Delete)</span>
+          <span class="stat-value" id="stat-removed">0</span>
+          <span class="stat-subtitle">Archived profiles</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-title">Ninja Region Family</span>
+          <span class="stat-value" id="stat-join-family">0</span>
+          <span class="stat-subtitle">Family applications</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-title">TikTok Game</span>
+          <span class="stat-value" id="stat-join-tiktok">0</span>
+          <span class="stat-subtitle">Game applications</span>
+        </div>
+      </section>
+
+      <!-- Filtering controls -->
+      <section class="filter-bar">
+        <div class="search-input-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input 
+            type="text" 
+            id="filter-search" 
+            placeholder="Search by full name or phone number..."
+          >
+        </div>
+        <div class="filter-select-wrap">
+          <select class="filter-select" id="filter-status">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="banned">Banned</option>
+            <option value="removed">Removed</option>
+          </select>
+          <select class="filter-select" id="filter-join-type">
+            <option value="">All Join Types</option>
+            <option value="ninja_region_family">Family Region</option>
+            <option value="tiktok_game">TikTok Game</option>
+          </select>
+          <select class="filter-select" id="filter-sort">
+            <option value="created_at">Registration Date</option>
+            <option value="full_name">Full Name</option>
+            <option value="status">Status</option>
+            <option value="id">ID</option>
+          </select>
+          <select class="filter-select" id="filter-order">
+            <option value="desc">Newest First</option>
+            <option value="asc">Oldest First</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Data Table -->
+      <section class="table-container">
+        <table class="user-table" id="users-table">
+          <thead>
+            <tr>
+              <th style="width: 60px;">ID</th>
+              <th>Full Name</th>
+              <th>Phone Number</th>
+              <th>Comment</th>
+              <th>Join Type</th>
+              <th style="width: 140px;">Terms Accepted</th>
+              <th>Status</th>
+              <th>Reg Date</th>
+              <th style="width: 200px; text-align: center;">Commands</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Content loaded via JS -->
+            <tr>
+              <td colspan="9" class="table-loading-state">
+                <div class="loading-state-icon"><i class="fa-solid fa-circle-notch"></i></div>
+                <p>Loading ninja registry records...</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Table footer pagination -->
+        <div class="pagination-bar">
+          <div class="pagination-info" id="pagination-info">
+            Showing 0 of 0 users
+          </div>
+          <div class="pagination-actions">
+            <button class="btn-page" id="btn-prev-page" disabled>
+              <i class="fa-solid fa-chevron-left"></i> Previous
+            </button>
+            <button class="btn-page" id="btn-next-page" disabled>
+              Next <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Detailed Modal overlay -->
+  <div class="modal-overlay" id="details-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>User Details</h3>
+        <button class="btn-modal-close" id="btn-close-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="detail-label">ID</span>
+            <span class="detail-value" id="detail-id">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Status</span>
+            <span class="detail-value" id="detail-status">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Full Name</span>
+            <span class="detail-value" id="detail-fullName">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Phone Number</span>
+            <span class="detail-value" id="detail-phoneNumber">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Join Type</span>
+            <span class="detail-value" id="detail-joinType">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Registration Date</span>
+            <span class="detail-value" id="detail-createdAt">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Terms Version</span>
+            <span class="detail-value" id="detail-termsVersion">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Terms Accepted At</span>
+            <span class="detail-value" id="detail-termsAcceptedAt">-</span>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">Short Comment</span>
+            <div class="comment-box-detail" id="detail-shortComment">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast system targets -->
+  <div id="toast-container"></div>
+
+  <!-- Import socket.io from local endpoint served by server.js -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
