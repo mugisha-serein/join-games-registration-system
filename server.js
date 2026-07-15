@@ -16,6 +16,9 @@ const adminAuthRoutes = require('./routes/admin-auth.routes');
 const adminUsersRoutes = require('./routes/admin-users.routes');
 
 const app = express();
+
+app.set('trust proxy', 1);
+
 const server = http.createServer(app);
 
 // Initialize Socket.IO
@@ -98,8 +101,11 @@ if (require.main === module) {
   initializeDatabase()
     .then(() => {
       initializeSocket(io);
-      server.listen(config.port, () => {
-        console.log(`Server running in ${config.nodeEnv} mode on port ${config.port}`);
+
+      server.listen(config.port, '0.0.0.0', () => {
+        console.log(
+          `Server running in ${config.nodeEnv} mode on port ${config.port}`
+        );
       });
     })
     .catch((err) => {
