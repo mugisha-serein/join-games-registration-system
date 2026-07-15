@@ -1,0 +1,73 @@
+/* Mobile usability overrides loaded after global.css and form.css. */
+
+@media (max-width: 700px) {
+  .terms-page {
+    height: auto;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .terms-layout {
+    height: auto;
+    min-height: 100dvh;
+    padding-top: max(14px, env(safe-area-inset-top));
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(14px, env(safe-area-inset-left));
+  }
+
+  .terms-card {
+    min-height: auto;
+    flex: none;
+    overflow: visible;
+  }
+
+  .terms-content-layout {
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .terms-box {
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    flex: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    scrollbar-gutter: auto;
+  }
+
+  .agreement-panel {
+    height: auto;
+    min-height: auto;
+  }
+
+  #registration-step2-form {
+    min-height: auto;
+  }
+
+  .terms-form-actions,
+  .terms-actions {
+    margin-top: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .terms-form-actions .btn,
+  .terms-actions .btn {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .terms-form-actions,
+  .terms-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .terms-form-actions .btn-secondary span,
+  .terms-actions .btn-secondary span {
+    display: inline;
+  }
+}
