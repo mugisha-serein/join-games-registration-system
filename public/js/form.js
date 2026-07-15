@@ -2,58 +2,107 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('registration-step1-form');
   const joinTypeCards = document.querySelectorAll('.join-type-card');
   const toastContainer = document.getElementById('toast-container');
+  const storageKey = 'registrationData';
+  const storageMaxAge = 30 * 60 * 1000;
 
-  // Load existing data from sessionStorage if available
-  const existingData = sessionStorage.getItem('registrationData');
-  if (existingData) {
+  function readStoredRegistration() {
+    const raw = localStorage.getItem(storageKey) || sessionStorage.getItem(storageKey);
+    if (!raw) return null;
+
     try {
-      const data = JSON.parse(existingData);
-      document.getElementById('fullName').value = data.fullName || '';
-      document.getElementById('phoneNumber').value = data.phoneNumber || '';
-      document.getElementById('shortComment').value = data.shortComment || '';
-      if (data.joinType) {
-        const radio = document.querySelector(`input[name="joinType"][value="${data.joinType}"]`);
-        if (radio) {
-          radio.checked = true;
-          radio.closest('.join-type-card').classList.add('selected');
-        }
+      const stored = JSON.parse(raw);
+      if (stored.savedAt && Date.now() - stored.savedAt > storageMaxAge) {
+        localStorage.removeItem(storageKey);
+        sessionStorage.removeItem(storageKey);
+        return null;
       }
-    } catch (e) {
-      console.error('Error parsing stored registration data', e);
+      return stored;
+    } catch (error) {
+      console.error('Error parsing stored registration data', error);
+      localStorage.removeItem(storageKey);
+      sessionStorage.removeItem(storageKey);
+      return null;
     }
   }
 
-  // Handle Join Type Card clicks
-  joinTypeCards.forEach(card => {
-    card.addEventListener('click', () => {
-      joinTypeCards.forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      const radio = card.querySelector('input[type="radio"]');
+  const existingData = readStoredRegistration();
+  if (existingData) {
+    document.getElementById('fullName').value = existingData.fullName || '';
+    document.getElementById('phoneNumber').value = existingData.phoneNumber || '';
+    document.getElementById('shortComment').value = existingData.shortComment || '';
+
+    if (existingData.joinType) {
+      const radio = document.querySelector(
+        `input[name="joinType"][value="${existingData.joinType}"]`
+      );
       if (radio) {
         radio.checked = true;
+        radio.closest('.join-type-card')?.classList.add('selected');
+      }
+    }
+  }
+
+  joinTypeCards.forEach((card) => {
+    const radio = card.querySelector('input[type="radio"]');
+
+    function selectCard() {
+      joinTypeCards.forEach((item) => item.classList.remove('selected'));
+      card.classList.add('selected');
+      if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      clearFieldError('joinType');
+    }
+
+    card.addEventListener('click', selectCard);
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        selectCard();
       }
     });
   });
 
-  // Helper: Show validation error
   function showError(fieldId, message) {
     const errorSpan = document.getElementById(`${fieldId}-error`);
-    if (errorSpan) {
-      errorSpan.textContent = message;
-    }
+    if (errorSpan) errorSpan.textContent = message;
+
     const input = document.getElementById(fieldId);
     if (input) {
       input.classList.add('is-invalid');
+      input.setAttribute('aria-invalid', 'true');
+      input.setAttribute('aria-describedby', `${fieldId}-error`);
     }
   }
 
-  // Helper: Clear validation errors
-  function clearErrors() {
-    document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
-    document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
+  function clearFieldError(fieldId) {
+    const errorSpan = document.getElementById(`${fieldId}-error`);
+    if (errorSpan) errorSpan.textContent = '';
+
+    const input = document.getElementById(fieldId);
+    if (input) {
+      input.classList.remove('is-invalid');
+      input.removeAttribute('aria-invalid');
+    }
   }
 
-  // Helper: Show toast notification
+  function clearErrors() {
+    document.querySelectorAll('.error-msg').forEach((element) => {
+      element.textContent = '';
+    });
+    document.querySelectorAll('.form-control').forEach((element) => {
+      element.classList.remove('is-invalid');
+      element.removeAttribute('aria-invalid');
+    });
+  }
+
+  ['fullName', 'phoneNumber', 'shortComment'].forEach((fieldId) => {
+    document.getElementById(fieldId)?.addEventListener('input', () => {
+      clearFieldError(fieldId);
+    });
+  });
+
   function showToast(title, message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
@@ -62,31 +111,39 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="toast-title">${escapeHtml(title)}</div>
         <div class="toast-message">${escapeHtml(message)}</div>
       </div>
-      <button class="toast-close"><i class="fa-solid fa-xmark"></i></button>
+      <button type="button" class="toast-close" aria-label="Close notification">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
     `;
-    
-    toastContainer.appendChild(toast);
 
-    toast.querySelector('.toast-close').addEventListener('click', () => {
-      toast.remove();
-    });
+    toastContainer.appendChild(toast);
+    toast.querySelector('.toast-close').addEventListener('click', () => toast.remove());
 
     setTimeout(() => {
       toast.style.opacity = '0';
-      toast.style.transition = 'opacity 0.5s ease';
-      setTimeout(() => toast.remove(), 500);
+      toast.style.transition = 'opacity 0.2s ease';
+      setTimeout(() => toast.remove(), 200);
     }, 4000);
   }
 
-  function escapeHtml(str) {
-    return str.replace(/[&<>'"]/g, 
-      tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  function escapeHtml(value) {
+    return String(value).replace(
+      /[&<>'"]/g,
+      (tag) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[tag]
     );
   }
 
-  // Form Submission
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  function focusFirstError(firstErrorId) {
+    const field = document.getElementById(firstErrorId);
+    const target = field || document.querySelector('.join-type-group');
+    if (!target) return;
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => field?.focus({ preventScroll: true }), 250);
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
     clearErrors();
 
     const fullName = document.getElementById('fullName').value.trim();
@@ -94,57 +151,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const shortComment = document.getElementById('shortComment').value.trim();
     const joinTypeInput = document.querySelector('input[name="joinType"]:checked');
     const joinType = joinTypeInput ? joinTypeInput.value : '';
+    let firstErrorId = null;
 
-    let hasErrors = false;
-
-    // Browser-side Validation
     if (!fullName) {
       showError('fullName', 'Full name is required.');
-      hasErrors = true;
+      firstErrorId = firstErrorId || 'fullName';
     } else if (fullName.length < 2) {
       showError('fullName', 'Full name must be at least 2 characters.');
-      hasErrors = true;
+      firstErrorId = firstErrorId || 'fullName';
     }
 
     if (!phoneNumber) {
       showError('phoneNumber', 'Phone number is required.');
-      hasErrors = true;
+      firstErrorId = firstErrorId || 'phoneNumber';
     } else {
-      // Basic phone format validation: allow digits, spaces, dashes, parentheses and optional leading plus
-      const cleaned = phoneNumber.replace(/[^\d+]/g, '').replace(/\D/g, '');
-      if (cleaned.length < 7) {
-        showError('phoneNumber', 'Invalid phone number. Must contain at least 7 digits.');
-        hasErrors = true;
+      const digits = phoneNumber.replace(/\D/g, '');
+      if (digits.length < 7) {
+        showError('phoneNumber', 'Phone number must contain at least 7 digits.');
+        firstErrorId = firstErrorId || 'phoneNumber';
       }
     }
 
     if (!joinType) {
       showError('joinType', 'Please select a join type.');
-      hasErrors = true;
+      firstErrorId = firstErrorId || 'joinType';
     }
 
-    if (hasErrors) {
-      showToast('Validation Failed', 'Please fix the errors before continuing.', 'danger');
+    if (firstErrorId) {
+      showToast('Validation Failed', 'Please correct the highlighted field.', 'danger');
+      focusFirstError(firstErrorId);
       return;
     }
 
-    // Save step 1 data to sessionStorage
-    sessionStorage.setItem('registrationData', JSON.stringify({
+    const registrationData = {
       fullName,
       phoneNumber,
       shortComment,
-      joinType
-    }));
+      joinType,
+      savedAt: Date.now()
+    };
 
-    // Navigate to step 2 with transition
-    const card = document.querySelector('.form-card');
-    if (card) {
-      card.classList.add('fade-out');
-      setTimeout(() => {
-        window.location.href = '/terms.html';
-      }, 300);
-    } else {
-      window.location.href = '/terms.html';
-    }
+    localStorage.setItem(storageKey, JSON.stringify(registrationData));
+    sessionStorage.setItem(storageKey, JSON.stringify(registrationData));
+    window.location.href = '/terms.html';
   });
 });
