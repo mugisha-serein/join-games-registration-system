@@ -43,26 +43,26 @@ app.use(
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
-          "https://fonts.googleapis.com",
-          "https://cdnjs.cloudflare.com",
+          'https://fonts.googleapis.com',
+          'https://cdnjs.cloudflare.com',
         ],
 
         fontSrc: [
           "'self'",
-          "data:",
-          "https://fonts.gstatic.com",
-          "https://cdnjs.cloudflare.com",
+          'data:',
+          'https://fonts.gstatic.com',
+          'https://cdnjs.cloudflare.com',
         ],
 
         connectSrc: [
           "'self'",
-          "ws:",
-          "wss:",
+          'ws:',
+          'wss:',
         ],
 
         imgSrc: [
           "'self'",
-          "data:",
+          'data:',
         ],
       },
     },
@@ -100,17 +100,32 @@ app.use((req, res, next) => {
       if (isAdmin) {
         return res.redirect('/admin/dashboard.html');
       }
-    } else {
-      if (!isAdmin) {
-        return res.redirect('/admin/login.html');
-      }
+    } else if (!isAdmin) {
+      return res.redirect('/admin/login.html');
     }
   }
   next();
 });
 
+// Prevent phones and in-app browsers from reusing old form CSS and JavaScript.
+app.use((req, res, next) => {
+  if (/\.(?:html|css|js)$/i.test(req.path) || req.path === '/') {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
+  }
+  next();
+});
+
 // Serve static assets from public folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  express.static(path.join(__dirname, 'public'), {
+    etag: false,
+    lastModified: false,
+    maxAge: 0,
+  })
+);
 
 // Mount API routes
 app.use('/api', registrationRoutes);
