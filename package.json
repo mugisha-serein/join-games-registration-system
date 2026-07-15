@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": ">=22.0.0 <23.0.0"
+  },
   "name": "ninja-registration",
   "version": "1.0.0",
   "description": "",
@@ -20,7 +23,7 @@
     "express-session": "^1.19.0",
     "helmet": "^7.1.0",
     "socket.io": "^4.8.3",
-    "sqlite3": "^6.0.1"
+    "sqlite3": "5.1.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
