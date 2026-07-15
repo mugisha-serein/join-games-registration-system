@@ -1,6 +1,9 @@
-/* Interaction safety overrides loaded after global.css and form.css. */
+/* Native form interaction layer.
+   Loaded after global.css and form.css. */
 
-/* Never let decorative layers block form controls. */
+/* Decorative content must never receive taps or clicks. */
+.registration-page *::before,
+.registration-page *::after,
 .input-icon,
 .textarea-icon,
 .card-icon,
@@ -9,87 +12,116 @@
 .welcome-icon,
 .terms-section-icon,
 .progress-track,
-.progress-bar-fill,
-body::before,
-body::after {
+.progress-bar-fill {
   pointer-events: none !important;
 }
 
-/* Keep every real form control interactive on desktop and mobile. */
-input,
-textarea,
-select,
-button,
-label,
-a {
+/* Keep the form in its own interaction layer above decoration. */
+.registration-page .form-card,
+.registration-page form,
+.registration-page .form-group,
+.registration-page .input-wrapper,
+.registration-page .textarea-wrapper,
+.registration-page .join-type-cards,
+.registration-page .agreement-choices,
+.registration-page .form-actions,
+.registration-page .terms-actions {
+  position: relative;
   pointer-events: auto !important;
-  touch-action: manipulation;
 }
 
-input.form-control,
-textarea.form-control,
-select.form-control {
-  position: relative;
-  z-index: 5;
+.registration-page form {
+  z-index: 10;
+}
+
+/* Restore normal browser input behavior on touch and mouse devices. */
+.registration-page input,
+.registration-page textarea,
+.registration-page select,
+.registration-page button,
+.registration-page label,
+.registration-page a {
+  pointer-events: auto !important;
+  touch-action: auto !important;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+.registration-page input.form-control,
+.registration-page textarea.form-control,
+.registration-page select.form-control {
+  position: relative !important;
+  z-index: 20 !important;
+  display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
-  user-select: text;
-  -webkit-user-select: text;
+  cursor: text;
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-button,
-.btn {
+.registration-page textarea.form-control {
+  touch-action: pan-y !important;
+}
+
+.registration-page button,
+.registration-page .btn {
   position: relative;
-  z-index: 5;
+  z-index: 20;
 }
 
-button:not(:disabled),
-.btn:not(:disabled) {
+.registration-page button:not(:disabled),
+.registration-page .btn:not(:disabled) {
   cursor: pointer;
+  pointer-events: auto !important;
 }
 
-/* Use native radio inputs instead of invisible full-card overlays. */
-.join-type-card input[type='radio'],
-.choice-option input[type='radio'] {
+/* Use native visible radios. Never cover a card with a transparent input. */
+.registration-page .join-type-card input[type='radio'],
+.registration-page .choice-option input[type='radio'] {
   position: static !important;
   inset: auto !important;
   z-index: auto !important;
-  width: 20px !important;
-  height: 20px !important;
-  min-width: 20px;
-  flex: 0 0 20px;
-  margin: 0;
+  display: inline-block !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px;
+  flex: 0 0 22px;
+  margin: 0 !important;
+  padding: 0 !important;
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
+  touch-action: auto !important;
   accent-color: var(--primary);
   cursor: pointer;
+  -webkit-appearance: radio;
+  appearance: auto;
 }
 
-.join-type-card,
-.choice-option {
+.registration-page .join-type-card,
+.registration-page .choice-option {
   position: relative;
   z-index: 1;
   pointer-events: auto !important;
+  touch-action: auto !important;
   cursor: pointer;
 }
 
-/* JavaScript fallbacks for browsers with incomplete :has() support. */
+/* Selected-state fallback without depending only on :has(). */
 .join-type-card.selected,
 .join-type-card:has(input:checked) {
   border-color: var(--primary);
   background: var(--primary-soft);
 }
 
-.join-type-card.selected .card-icon,
-.join-type-card:has(input:checked) .card-icon {
-  border-color: rgba(185, 28, 28, 0.22);
-  background: #ffffff;
-  color: var(--primary);
-}
-
 .join-type-card.selected .selection-indicator,
-.join-type-card:has(input:checked) .selection-indicator {
+.join-type-card:has(input:checked) .selection-indicator,
+.choice-option.selected-agree .choice-indicator,
+.choice-option.selected-disagree .choice-indicator,
+.choice-option:has(input:checked) .choice-indicator {
   display: grid;
 }
 
@@ -106,12 +138,6 @@ button:not(:disabled),
 }
 
 .choice-option.selected-agree .choice-indicator,
-.choice-option.selected-disagree .choice-indicator,
-.choice-option:has(input:checked) .choice-indicator {
-  display: grid;
-}
-
-.choice-option.selected-agree .choice-indicator,
 #label-agree:has(input:checked) .choice-indicator {
   background: var(--primary);
 }
@@ -121,71 +147,48 @@ button:not(:disabled),
   background: var(--error);
 }
 
-.join-type-card:focus-within,
-.choice-option:focus-within {
-  box-shadow: 0 0 0 3px var(--focus-ring);
+/* An empty fixed toast container must not sit above the form. */
+#toast-container:empty {
+  pointer-events: none !important;
 }
 
-/* Ensure no parent container disables interaction. */
-.registration-page,
-.registration-layout,
-.form-card,
-form,
-.form-group,
-.input-wrapper,
-.textarea-wrapper,
-.join-type-cards,
-.terms-content-layout,
-.terms-box,
-.agreement-panel,
-.agreement-choices,
-.form-actions,
-.terms-actions {
-  pointer-events: auto !important;
+#toast-container:not(:empty) {
+  pointer-events: auto;
 }
 
+/* Mobile pages use normal document scrolling. */
 @media (max-width: 700px) {
+  html,
+  body.registration-page,
   .terms-page {
-    height: auto;
-    min-height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    height: auto !important;
+    min-height: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
   }
 
+  .registration-layout,
   .terms-layout {
-    height: auto;
-    min-height: 100dvh;
+    height: auto !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
     padding-top: max(14px, env(safe-area-inset-top));
     padding-right: max(14px, env(safe-area-inset-right));
     padding-bottom: max(20px, env(safe-area-inset-bottom));
     padding-left: max(14px, env(safe-area-inset-left));
   }
 
-  .terms-card {
-    min-height: auto;
-    flex: none;
-    overflow: visible;
-  }
-
-  .terms-content-layout {
-    min-height: auto;
-    overflow: visible;
-  }
-
-  .terms-box {
-    height: auto;
-    min-height: auto;
-    max-height: none;
-    flex: none;
-    overflow: visible;
-    overscroll-behavior: auto;
-    scrollbar-gutter: auto;
-  }
-
+  .form-card,
+  .terms-card,
+  .terms-content-layout,
+  .terms-box,
   .agreement-panel,
+  #registration-step1-form,
   #registration-step2-form {
-    height: auto;
-    min-height: auto;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   .terms-form-actions,
