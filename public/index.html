@@ -2,155 +2,277 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Ninja Registration</title>
-  <meta name="description" content="Register for the Ninja Family Region or TikTok Game in a guided two-step flow.">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <meta
+    name="description"
+    content="Register for the Ninja Family Region or TikTok Game in a guided two-step flow."
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
+
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/form.css">
 </head>
+
 <body class="registration-page">
-  <main class="form-container">
-    <div class="registration-shell fade-in">
-      <aside class="story-panel" aria-label="Ninja family registration introduction">
-        <div>
-          <span class="story-kicker"><i class="fa-solid fa-bolt"></i> Two minute sign-up</span>
-          <h2>Join the next training circle.</h2>
-          <p>Choose your path, share your details, and step into a reviewed community built for playful challenges and respectful teamwork.</p>
-        </div>
-        <div>
-          <div class="story-badges">
-            <div class="story-badge">
-              <i class="fa-solid fa-house-user" aria-hidden="true"></i>
-              <strong>Family Region</strong>
-              <span>Community membership for ninja family activities and updates.</span>
-            </div>
-            <div class="story-badge">
-              <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
-              <strong>TikTok Game</strong>
-              <span>Fast entry for game rounds, creator moments, and social play.</span>
-            </div>
-          </div>
-          <div class="story-footer">
-            <span class="mini-chip"><i class="fa-solid fa-shield-heart"></i> Reviewed by admins</span>
-            <span class="mini-chip"><i class="fa-solid fa-lock"></i> Private details</span>
-          </div>
-        </div>
-      </aside>
-
-      <section class="form-card">
-      <div class="brand-header">
-        <div class="brand-icon">
-          <i class="fa-solid fa-user-ninja"></i>
-        </div>
-        <h1>Ninja Registration</h1>
-        <p>Start with your contact details, then confirm the community terms.</p>
+  <main class="registration-layout">
+    <header class="welcome-header">
+      <div class="welcome-icon" aria-hidden="true">
+        <i class="fas fa-user-ninja"></i>
       </div>
 
-      <!-- Step Progress Bar -->
-      <div class="step-progress">
-        <div class="progress-bar-fill"></div>
+      <div>
+        <h1>Welcome to Ninja Legion</h1>
+        <p>Honor. Strength. Brotherhood.</p>
+      </div>
+    </header>
+
+    <section
+      class="form-card"
+      aria-labelledby="registration-title"
+    >
+      <div class="form-heading">
+        <div>
+          <span class="form-eyebrow">
+            <i class="fas fa-scroll" aria-hidden="true"></i>
+            Membership application
+          </span>
+
+          <h2 id="registration-title">Ninja Registration</h2>
+
+          <p>
+            Enter your contact details and choose how you would like
+            to join the legion.
+          </p>
+        </div>
+
+        <span class="secure-badge">
+          <i class="fas fa-shield" aria-hidden="true"></i>
+          Secure form
+        </span>
+      </div>
+
+      <!-- Step progress -->
+      <div
+        class="step-progress"
+        aria-label="Registration progress"
+      >
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-bar-fill"></div>
+        </div>
+
         <div class="step-node active">
-          1
-          <span class="step-label">Details</span>
+          <span class="step-number">1</span>
+
+          <span class="step-content">
+            <strong>Details</strong>
+            <small>Your information</small>
+          </span>
         </div>
+
         <div class="step-node">
-          2
-          <span class="step-label">Terms</span>
+          <span class="step-number">2</span>
+
+          <span class="step-content">
+            <strong>Terms</strong>
+            <small>Review and agree</small>
+          </span>
         </div>
       </div>
 
-      <!-- Form Step 1 -->
+      <!-- Step 1 form -->
       <form id="registration-step1-form" novalidate>
-        <div class="form-group">
-          <label for="fullName"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Full Name <span class="required">*</span></label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-user input-icon"></i>
-            <input 
-              type="text" 
-              id="fullName" 
-              name="fullName" 
-              class="form-control" 
-              placeholder="e.g. Kenji Takahashi" 
-              required
-            >
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="fullName">
+              Full Name
+              <span class="required" aria-hidden="true">*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <i
+                class="fas fa-user input-icon"
+                aria-hidden="true"
+              ></i>
+
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                class="form-control"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+              >
+            </div>
+
+            <span
+              class="error-msg"
+              id="fullName-error"
+              role="alert"
+            ></span>
           </div>
-          <span class="error-msg" id="fullName-error"></span>
+
+          <div class="form-group">
+            <label for="phoneNumber">
+              Phone Number
+              <span class="required" aria-hidden="true">*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <i class="fas fa-phone input-icon" aria-hidden="true"></i>
+
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                class="form-control"
+                placeholder="e.g. +250 788 123 456"
+                autocomplete="tel"
+                inputmode="tel"
+                required
+              >
+            </div>
+
+            <span
+              class="error-msg"
+              id="phoneNumber-error"
+              role="alert"
+            ></span>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="phoneNumber"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> Phone Number <span class="required">*</span></label>
-          <div class="input-wrapper">
-            <i class="fa-solid fa-phone input-icon"></i>
-            <input 
-              type="tel" 
-              id="phoneNumber" 
-              name="phoneNumber" 
-              class="form-control" 
-              placeholder="e.g. +1 555 123 4567" 
-              required
-            >
-          </div>
-          <span class="error-msg" id="phoneNumber-error"></span>
-        </div>
+        <fieldset class="form-group join-type-group">
+          <legend>
+            Choose your path
+            <span class="required" aria-hidden="true">*</span>
+          </legend>
 
-        <div class="form-group">
-          <label><i class="fa-solid fa-route" aria-hidden="true"></i> Join Type <span class="required">*</span></label>
           <div class="join-type-cards">
-            <!-- Ninja Family card -->
             <label class="join-type-card" for="join-family">
-              <input 
-                type="radio" 
-                id="join-family" 
-                name="joinType" 
-                value="ninja_region_family" 
+              <input
+                type="radio"
+                id="join-family"
+                name="joinType"
+                value="ninja_region_family"
                 required
               >
-              <div class="card-icon"><i class="fa-solid fa-people-group"></i></div>
-              <div class="card-title">Join Family</div>
-              <div class="card-desc">Join Family Ninja Region</div>
+
+              <span class="selection-indicator" aria-hidden="true">
+                <i class="fas fa-check"></i>
+              </span>
+
+              <span class="card-icon" aria-hidden="true">
+                <i class="fas fa-users"></i>
+              </span>
+
+              <span class="card-copy">
+                <strong>Join Family</strong>
+                <small>
+                  Become part of the Ninja Region family and community.
+                </small>
+              </span>
             </label>
-            
-            <!-- TikTok Game card -->
+
             <label class="join-type-card" for="join-tiktok">
-              <input 
-                type="radio" 
-                id="join-tiktok" 
-                name="joinType" 
-                value="tiktok_game" 
+              <input
+                type="radio"
+                id="join-tiktok"
+                name="joinType"
+                value="tiktok_game"
                 required
               >
-              <div class="card-icon"><i class="fa-brands fa-tiktok"></i></div>
-              <div class="card-title">TikTok Game</div>
-              <div class="card-desc">Join TikTok Game</div>
+
+              <span class="selection-indicator" aria-hidden="true">
+                <i class="fas fa-check"></i>
+              </span>
+
+              <span class="card-icon" aria-hidden="true">
+                <i class="fab fa-tiktok"></i>
+              </span>
+
+              <span class="card-copy">
+                <strong>TikTok Game</strong>
+                <small>
+                  Join challenges, game rounds, and social activities.
+                </small>
+              </span>
             </label>
           </div>
-          <span class="error-msg" id="joinType-error"></span>
-        </div>
+
+          <span
+            class="error-msg"
+            id="joinType-error"
+            role="alert"
+          ></span>
+        </fieldset>
 
         <div class="form-group">
-          <label for="shortComment"><i class="fa-solid fa-message" aria-hidden="true"></i> Short Comment (Optional)</label>
-          <textarea 
-            id="shortComment" 
-            name="shortComment" 
-            class="form-control" 
-            placeholder="Tell us why you want to join..."
-            maxlength="500"
-          ></textarea>
-          <span class="error-msg" id="shortComment-error"></span>
+          <div class="label-row">
+            <label for="shortComment">
+              Short Comment
+            </label>
+
+            <span class="optional-label">Optional</span>
+          </div>
+
+          <div class="textarea-wrapper">
+            <i
+              class="fa-regular fa-message textarea-icon"
+              aria-hidden="true"
+            ></i>
+
+            <textarea
+              id="shortComment"
+              name="shortComment"
+              class="form-control"
+              placeholder="Tell us briefly why you want to join..."
+              maxlength="500"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <span
+            class="error-msg"
+            id="shortComment-error"
+            role="alert"
+          ></span>
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary" id="btn-next">
-            <span>Next Step</span> <i class="fa-solid fa-arrow-right"></i>
+          <p class="form-note">
+            <i class="fas fa-info-circle" aria-hidden="true"></i>
+            Your information is private and reviewed only by administrators.
+          </p>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="btn-next"
+          >
+            <span>Continue to Terms</span>
+            <i class="fas fa-arrow-right" aria-hidden="true"></i>
           </button>
         </div>
       </form>
-      </section>
-    </div>
+    </section>
   </main>
 
-  <div id="toast-container"></div>
+  <div
+    id="toast-container"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
 
   <script src="/js/form.js"></script>
 </body>

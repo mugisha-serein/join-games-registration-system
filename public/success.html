@@ -2,26 +2,119 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Ninja Registration - Success</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <meta
+    name="description"
+    content="Your Ninja Legion registration has been submitted successfully."
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
+
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/form.css">
 </head>
-<body>
-  <main class="form-container">
-    <div class="form-card compact-card fade-in">
-      <div class="success-card">
-        <div class="success-icon-wrap">
-          <i class="fa-solid fa-circle-check"></i>
+
+<body class="registration-page success-page">
+  <main class="registration-layout success-layout">
+    <section
+      class="form-card success-form-card"
+      aria-labelledby="success-title"
+    >
+      <div
+        class="success-status-icon"
+        aria-hidden="true"
+      >
+        <i class="fas fa-check"></i>
+      </div>
+
+      <span class="success-eyebrow">
+        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+        Application submitted
+      </span>
+
+      <h2 id="success-title">
+        Information Submitted
+      </h2>
+
+      <p class="success-description">
+        Your application has been added to the Ninja Legion review
+        queue. An administrator will review your information and update
+        your registration status.
+      </p>
+
+      <div class="success-summary">
+        <div class="success-summary-item">
+          <span class="success-summary-icon" aria-hidden="true">
+            <i class="fas fa-circle-check"></i>
+          </span>
+
+          <div>
+            <strong>Details received</strong>
+            <p>
+              Your contact information and selected join type were
+              submitted successfully.
+            </p>
+          </div>
         </div>
-        <h2>Registration Submitted!</h2>
-        <p>Your application is now queued for region administrator review. Keep an eye out for the next update.</p>
-        <a href="/" class="btn btn-primary">
-          <i class="fa-solid fa-house"></i> <span>Back to Home</span>
+
+        <div class="success-summary-item">
+          <span class="success-summary-icon" aria-hidden="true">
+            <i class="fas fa-user-shield"></i>
+          </span>
+
+          <div>
+            <strong>Administrator review</strong>
+            <p>
+              An authorized administrator will review your registration
+              before approval.
+            </p>
+          </div>
+        </div>
+
+        <div class="success-summary-item">
+          <span class="success-summary-icon" aria-hidden="true">
+            <i class="fas fa-bell"></i>
+          </span>
+
+          <div>
+            <strong>Wait for an update</strong>
+            <p>
+              Keep your phone available for future Ninja Legion
+              communication.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="success-notice">
+        <i
+          class="fas fa-shield-halved"
+          aria-hidden="true"
+        ></i>
+
+        <span>
+          Submitting a registration does not guarantee approval.
+          Membership begins only after administrator confirmation.
+        </span>
+      </div>
+
+      <div class="success-actions">
+        <a href="/" class="btn btn-primary success-home-button">
+          <i class="fas fa-house" aria-hidden="true"></i>
+          <span>Back to Home</span>
         </a>
       </div>
-    </div>
+    </section>
   </main>
 </body>
 </html>

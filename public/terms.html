@@ -2,90 +2,331 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ninja Registration - Step 2</title>
-  <meta name="description" content="Register to join the Ninja Family Region or play the TikTok Game. Step 2: Terms and Conditions.">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Ninja Registration - Terms</title>
+
+  <meta
+    name="description"
+    content="Review and accept the Ninja Legion terms and conditions to complete your registration."
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
+
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/form.css">
 </head>
-<body>
-  <main class="form-container">
-    <div class="form-card compact-card fade-in">
-      <div class="brand-header">
-        <div class="brand-icon">
-          <i class="fa-solid fa-file-contract"></i>
-        </div>
-        <h1>Terms & Conditions</h1>
-        <p>One last check before your registration enters admin review.</p>
+
+<body class="registration-page">
+  <main class="registration-layout">
+    <header class="welcome-header">
+      <div class="welcome-icon" aria-hidden="true">
+        <i class="fas fa-user-ninja"></i>
       </div>
 
-      <!-- Step Progress Bar -->
-      <div class="step-progress step-2">
-        <div class="progress-bar-fill"></div>
+      <div>
+        <h1>Welcome to Ninja Legion</h1>
+        <p>Honor. Strength. Brotherhood.</p>
+      </div>
+    </header>
+
+    <section
+      class="form-card terms-card"
+      aria-labelledby="terms-title"
+    >
+      <div class="form-heading">
+        <div>
+          <span class="form-eyebrow">
+            <i class="fas fa-scroll" aria-hidden="true"></i>
+            Membership agreement
+          </span>
+
+          <h2 id="terms-title">Terms &amp; Conditions</h2>
+
+          <p>
+            Review the community rules and confirm your agreement
+            before submitting your registration.
+          </p>
+        </div>
+
+        <span class="secure-badge">
+          <i class="fas fa-shield" aria-hidden="true"></i>
+          Final step
+        </span>
+      </div>
+
+      <!-- Step progress -->
+      <div
+        class="step-progress step-2"
+        aria-label="Registration progress"
+      >
+        <div class="progress-track" aria-hidden="true">
+          <div
+            class="progress-bar-fill"
+            style="width: 100%;"
+          ></div>
+        </div>
+
         <div class="step-node completed">
-          <i class="fa-solid fa-check"></i>
-          <span class="step-label">Details</span>
+          <span class="step-number">
+            <i class="fas fa-check" aria-hidden="true"></i>
+          </span>
+
+          <span class="step-content">
+            <strong>Details</strong>
+            <small>Information completed</small>
+          </span>
         </div>
+
         <div class="step-node active">
-          2
-          <span class="step-label">Terms</span>
+          <span class="step-number">2</span>
+
+          <span class="step-content">
+            <strong>Terms</strong>
+            <small>Review and agree</small>
+          </span>
         </div>
       </div>
 
-      <!-- Terms & Conditions Box -->
-      <div class="terms-box">
-        <h3>1. Community Rules</h3>
-        <p>Our community values collaboration, learning, and stealth. All members must abide by the rules of the ninja region and respect their fellow brothers and sisters.</p>
+      <!-- Terms and conditions -->
+      <div
+        class="terms-box"
+        tabindex="0"
+        aria-label="Ninja Legion terms and conditions"
+      >
+        <section class="terms-section">
+          <div class="terms-section-icon" aria-hidden="true">
+            <i class="fas fa-people-group"></i>
+          </div>
 
-        <h3>2. Respectful Behaviour</h3>
-        <p>Harassment, spam, toxic language, and disrespectful behaviour will not be tolerated under any circumstances. We hold ourselves to the highest standards of honour.</p>
+          <div>
+            <h3>1. Community Rules</h3>
 
-        <h3>3. Data Use Notice</h3>
-        <p>Your name and phone number are collected solely for the purposes of managing your membership, moderating join requests, and sending region notifications. We will never sell your personal data to third parties.</p>
+            <p>
+              Ninja Legion values teamwork, learning, discipline, and
+              community. Every member must follow the region rules and
+              respect fellow members.
+            </p>
+          </div>
+        </section>
 
-        <h3>4. Approval Process</h3>
-        <p>All registrations enter a pending queue. Authenticated region administrators review every request manually. You will receive access details once approved.</p>
+        <section class="terms-section">
+          <div class="terms-section-icon" aria-hidden="true">
+            <i class="fas fa-handshake"></i>
+          </div>
 
-        <h3>5. Ban & Removal Policy</h3>
-        <p>Administrators reserve the right to ban or remove users who violate community terms. Banned accounts are permanently restricted from re-registration.</p>
+          <div>
+            <h3>2. Respectful Behaviour</h3>
 
-        <h3>6. Admin Moderation Rights</h3>
-        <p>Administrators maintain absolute moderation rights to approve, ban, soft-delete (remove), and restore member profiles in accordance with community safety rules.</p>
+            <p>
+              Harassment, spam, threats, toxic language, discrimination,
+              and disrespectful behaviour are not allowed. Members must
+              communicate responsibly and protect the safety of the
+              community.
+            </p>
+          </div>
+        </section>
+
+        <section class="terms-section">
+          <div class="terms-section-icon" aria-hidden="true">
+            <i class="fas fa-database"></i>
+          </div>
+
+          <div>
+            <h3>3. Data Use Notice</h3>
+
+            <p>
+              Your name, phone number, join choice, and comment are used
+              only to review your registration, manage membership, and
+              send relevant Ninja Legion updates. Your personal
+              information will not be sold to third parties.
+            </p>
+          </div>
+        </section>
+
+        <section class="terms-section">
+          <div class="terms-section-icon" aria-hidden="true">
+            <i class="fas fa-user-check"></i>
+          </div>
+
+          <div>
+            <h3>4. Approval Process</h3>
+
+            <p>
+              Every registration is submitted with a pending status.
+              Authorized administrators review each request and may
+              approve or reject it according to the community
+              requirements.
+            </p>
+          </div>
+        </section>
+
+        <section class="terms-section">
+          <div class="terms-section-icon" aria-hidden="true">
+            <i class="fas fa-ban"></i>
+          </div>
+
+          <div>
+            <h3>5. Ban and Removal Policy</h3>
+
+            <p>
+              Members who violate the community rules may be suspended,
+              banned, or removed. Attempts to bypass a ban or submit
+              misleading information may also result in permanent
+              restriction.
+            </p>
+          </div>
+        </section>
+
+        <section class="terms-section">
+          <div class="terms-section-icon" aria-hidden="true">
+            <i class="fas fa-shield-halved"></i>
+          </div>
+
+          <div>
+            <h3>6. Administrator Moderation</h3>
+
+            <p>
+              Authorized administrators may approve, reject, ban,
+              remove, or restore registrations when necessary to protect
+              the Ninja Legion community and enforce these rules.
+            </p>
+          </div>
+        </section>
       </div>
 
-      <!-- Form Step 2 -->
+      <!-- Step 2 form -->
       <form id="registration-step2-form" novalidate>
-        <div class="agreement-choices">
-          <label class="choice-option" id="label-agree" for="agree">
-            <input type="radio" id="agree" name="termsAgreement" value="agree" required>
-            <span>I Agree</span>
-          </label>
-          
-          <label class="choice-option" id="label-disagree" for="disagree">
-            <input type="radio" id="disagree" name="termsAgreement" value="disagree" required>
-            <span>I Do Not Agree</span>
-          </label>
+        <fieldset class="form-group agreement-group">
+          <legend>
+            Do you accept these terms?
+            <span class="required" aria-hidden="true">*</span>
+          </legend>
+
+          <div class="join-type-cards agreement-choices">
+            <label
+              class="join-type-card choice-option"
+              id="label-agree"
+              for="agree"
+            >
+              <input
+                type="radio"
+                id="agree"
+                name="termsAgreement"
+                value="agree"
+                required
+              >
+
+              <span class="selection-indicator" aria-hidden="true">
+                <i class="fas fa-check"></i>
+              </span>
+
+              <span class="card-icon agreement-icon" aria-hidden="true">
+                <i class="fas fa-circle-check"></i>
+              </span>
+
+              <span class="card-copy">
+                <strong>I Agree</strong>
+
+                <small>
+                  I have read and accept the Ninja Legion terms and
+                  community rules.
+                </small>
+              </span>
+            </label>
+
+            <label
+              class="join-type-card choice-option disagree-option"
+              id="label-disagree"
+              for="disagree"
+            >
+              <input
+                type="radio"
+                id="disagree"
+                name="termsAgreement"
+                value="disagree"
+                required
+              >
+
+              <span class="selection-indicator" aria-hidden="true">
+                <i class="fas fa-xmark"></i>
+              </span>
+
+              <span class="card-icon agreement-icon" aria-hidden="true">
+                <i class="fas fa-circle-xmark"></i>
+              </span>
+
+              <span class="card-copy">
+                <strong>I Do Not Agree</strong>
+
+                <small>
+                  My registration will not be submitted without
+                  accepting the terms.
+                </small>
+              </span>
+            </label>
+          </div>
+
+          <span
+            class="error-msg"
+            id="termsAgreement-error"
+            role="alert"
+          ></span>
+        </fieldset>
+
+        <div
+          class="disclaimer-alert"
+          id="disagree-alert"
+          role="alert"
+          hidden
+        >
+          <i
+            class="fas fa-triangle-exclamation"
+            aria-hidden="true"
+          ></i>
+
+          <span>
+            Registration cannot continue unless you accept the terms
+            and conditions.
+          </span>
         </div>
 
-        <!-- Non-acceptance warning -->
-        <div class="disclaimer-alert" id="disagree-alert">
-          <i class="fa-solid fa-circle-exclamation"></i> Registration cannot continue. You must accept the terms to complete registration.
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn btn-secondary" id="btn-back">
-            <i class="fa-solid fa-arrow-left"></i> <span>Back</span>
+        <div class="form-actions terms-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            id="btn-back"
+          >
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            <span>Back to Details</span>
           </button>
-          <button type="submit" class="btn btn-primary" id="btn-submit" disabled>
-            <span>Submit Registration</span> <i class="fa-solid fa-circle-check"></i>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="btn-submit"
+            disabled
+          >
+            <span>Submit Information</span>
+            <i class="fas fa-circle-check" aria-hidden="true"></i>
           </button>
         </div>
       </form>
-    </div>
+    </section>
   </main>
 
-  <div id="toast-container"></div>
+  <div
+    id="toast-container"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
 
   <script src="/js/terms.js"></script>
 </body>
