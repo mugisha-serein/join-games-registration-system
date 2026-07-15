@@ -1,64 +1,147 @@
-/* Mobile usability overrides loaded after global.css and form.css. */
+/* Interaction safety overrides loaded after global.css and form.css. */
 
-/*
- * Keep custom radio cards fully tappable. The transparent radio covers the
- * complete label instead of becoming a 1px element with pointer events off.
- */
+/* Never let decorative layers block form controls. */
+.input-icon,
+.textarea-icon,
+.card-icon,
+.selection-indicator,
+.choice-indicator,
+.welcome-icon,
+.terms-section-icon,
+.progress-track,
+.progress-bar-fill,
+body::before,
+body::after {
+  pointer-events: none !important;
+}
+
+/* Keep every real form control interactive on desktop and mobile. */
+input,
+textarea,
+select,
+button,
+label,
+a {
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+
+input.form-control,
+textarea.form-control,
+select.form-control {
+  position: relative;
+  z-index: 5;
+  opacity: 1 !important;
+  visibility: visible !important;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+button,
+.btn {
+  position: relative;
+  z-index: 5;
+}
+
+button:not(:disabled),
+.btn:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Use native radio inputs instead of invisible full-card overlays. */
 .join-type-card input[type='radio'],
 .choice-option input[type='radio'] {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
+  position: static !important;
+  inset: auto !important;
+  z-index: auto !important;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px;
+  flex: 0 0 20px;
   margin: 0;
-  opacity: 0;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  accent-color: var(--primary);
   cursor: pointer;
-  pointer-events: auto;
+}
+
+.join-type-card,
+.choice-option {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto !important;
+  cursor: pointer;
 }
 
 /* JavaScript fallbacks for browsers with incomplete :has() support. */
-.join-type-card.selected {
+.join-type-card.selected,
+.join-type-card:has(input:checked) {
   border-color: var(--primary);
   background: var(--primary-soft);
 }
 
-.join-type-card.selected .card-icon {
+.join-type-card.selected .card-icon,
+.join-type-card:has(input:checked) .card-icon {
   border-color: rgba(185, 28, 28, 0.22);
   background: #ffffff;
   color: var(--primary);
 }
 
-.join-type-card.selected .selection-indicator {
+.join-type-card.selected .selection-indicator,
+.join-type-card:has(input:checked) .selection-indicator {
   display: grid;
 }
 
-.choice-option.selected-agree {
+.choice-option.selected-agree,
+#label-agree:has(input:checked) {
   border-color: var(--primary);
   background: var(--primary-soft);
 }
 
-.choice-option.selected-disagree {
+.choice-option.selected-disagree,
+#label-disagree:has(input:checked) {
   border-color: var(--error);
   background: #fef2f2;
 }
 
 .choice-option.selected-agree .choice-indicator,
-.choice-option.selected-disagree .choice-indicator {
+.choice-option.selected-disagree .choice-indicator,
+.choice-option:has(input:checked) .choice-indicator {
   display: grid;
 }
 
-.choice-option.selected-agree .choice-indicator {
+.choice-option.selected-agree .choice-indicator,
+#label-agree:has(input:checked) .choice-indicator {
   background: var(--primary);
 }
 
-.choice-option.selected-disagree .choice-indicator {
+.choice-option.selected-disagree .choice-indicator,
+#label-disagree:has(input:checked) .choice-indicator {
   background: var(--error);
 }
 
 .join-type-card:focus-within,
 .choice-option:focus-within {
   box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* Ensure no parent container disables interaction. */
+.registration-page,
+.registration-layout,
+.form-card,
+form,
+.form-group,
+.input-wrapper,
+.textarea-wrapper,
+.join-type-cards,
+.terms-content-layout,
+.terms-box,
+.agreement-panel,
+.agreement-choices,
+.form-actions,
+.terms-actions {
+  pointer-events: auto !important;
 }
 
 @media (max-width: 700px) {
@@ -99,12 +182,9 @@
     scrollbar-gutter: auto;
   }
 
-  .agreement-panel {
-    height: auto;
-    min-height: auto;
-  }
-
+  .agreement-panel,
   #registration-step2-form {
+    height: auto;
     min-height: auto;
   }
 
