@@ -95,7 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       showToast('Login Successful', 'Welcome back, Commander!', 'success');
       
-      // Redirect to admin dashboard
+      // Redirect to admin dashboard with transition
+      const card = document.querySelector('.form-card');
+      if (card) {
+        setTimeout(() => {
+          card.classList.add('fade-out');
+        }, 700);
+      }
+      
       setTimeout(() => {
         window.location.href = '/admin/dashboard.html';
       }, 1000);

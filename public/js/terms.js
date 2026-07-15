@@ -45,9 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSubmit.disabled = true;
   });
 
-  // Handle back button (preserves data automatically since we don't clear sessionStorage yet)
+  // Handle back button with transition
   btnBack.addEventListener('click', () => {
-    window.location.href = '/index.html';
+    const card = document.querySelector('.form-card');
+    if (card) {
+      card.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = '/index.html';
+      }, 300);
+    } else {
+      window.location.href = '/index.html';
+    }
   });
 
   // Helper: Show toast notification
@@ -118,9 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(result.message || 'Failed to submit registration');
       }
 
-      // Successful registration
+      // Successful registration with transition
       sessionStorage.removeItem('registrationData');
-      window.location.href = '/success.html';
+      const card = document.querySelector('.form-card');
+      if (card) {
+        card.classList.add('fade-out');
+        setTimeout(() => {
+          window.location.href = '/success.html';
+        }, 300);
+      } else {
+        window.location.href = '/success.html';
+      }
     } catch (error) {
       console.error('Registration submission error:', error);
       showToast('Registration Error', error.message || 'An error occurred during submission.', 'danger');

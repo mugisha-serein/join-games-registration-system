@@ -3,21 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ninja Registration - Step 1</title>
-  <meta name="description" content="Register to join the Ninja Family Region or play the TikTok Game. Step 1: Details.">
+  <title>Ninja Registration</title>
+  <meta name="description" content="Register for the Ninja Family Region or TikTok Game in a guided two-step flow.">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/form.css">
 </head>
-<body>
-  <div class="form-container">
-    <div class="form-card fade-in">
+<body class="registration-page">
+  <main class="form-container">
+    <div class="registration-shell fade-in">
+      <aside class="story-panel" aria-label="Ninja family registration introduction">
+        <div>
+          <span class="story-kicker"><i class="fa-solid fa-bolt"></i> Two minute sign-up</span>
+          <h2>Join the next training circle.</h2>
+          <p>Choose your path, share your details, and step into a reviewed community built for playful challenges and respectful teamwork.</p>
+        </div>
+        <div>
+          <div class="story-badges">
+            <div class="story-badge">
+              <i class="fa-solid fa-house-user" aria-hidden="true"></i>
+              <strong>Family Region</strong>
+              <span>Community membership for ninja family activities and updates.</span>
+            </div>
+            <div class="story-badge">
+              <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
+              <strong>TikTok Game</strong>
+              <span>Fast entry for game rounds, creator moments, and social play.</span>
+            </div>
+          </div>
+          <div class="story-footer">
+            <span class="mini-chip"><i class="fa-solid fa-shield-heart"></i> Reviewed by admins</span>
+            <span class="mini-chip"><i class="fa-solid fa-lock"></i> Private details</span>
+          </div>
+        </div>
+      </aside>
+
+      <section class="form-card">
       <div class="brand-header">
         <div class="brand-icon">
           <i class="fa-solid fa-user-ninja"></i>
         </div>
         <h1>Ninja Registration</h1>
-        <p>Complete the steps to join the ninja ranks</p>
+        <p>Start with your contact details, then confirm the community terms.</p>
       </div>
 
       <!-- Step Progress Bar -->
@@ -36,7 +63,7 @@
       <!-- Form Step 1 -->
       <form id="registration-step1-form" novalidate>
         <div class="form-group">
-          <label for="fullName">Full Name <span class="required">*</span></label>
+          <label for="fullName"><i class="fa-solid fa-id-card" aria-hidden="true"></i> Full Name <span class="required">*</span></label>
           <div class="input-wrapper">
             <i class="fa-solid fa-user input-icon"></i>
             <input 
@@ -52,7 +79,7 @@
         </div>
 
         <div class="form-group">
-          <label for="phoneNumber">Phone Number <span class="required">*</span></label>
+          <label for="phoneNumber"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> Phone Number <span class="required">*</span></label>
           <div class="input-wrapper">
             <i class="fa-solid fa-phone input-icon"></i>
             <input 
@@ -68,7 +95,7 @@
         </div>
 
         <div class="form-group">
-          <label>Join Type <span class="required">*</span></label>
+          <label><i class="fa-solid fa-route" aria-hidden="true"></i> Join Type <span class="required">*</span></label>
           <div class="join-type-cards">
             <!-- Ninja Family card -->
             <label class="join-type-card" for="join-family">
@@ -102,7 +129,7 @@
         </div>
 
         <div class="form-group">
-          <label for="shortComment">Short Comment (Optional)</label>
+          <label for="shortComment"><i class="fa-solid fa-message" aria-hidden="true"></i> Short Comment (Optional)</label>
           <textarea 
             id="shortComment" 
             name="shortComment" 
@@ -119,8 +146,9 @@
           </button>
         </div>
       </form>
+      </section>
     </div>
-  </div>
+  </main>
 
   <div id="toast-container"></div>
 

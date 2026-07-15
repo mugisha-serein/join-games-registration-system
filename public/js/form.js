@@ -136,7 +136,15 @@ document.addEventListener('DOMContentLoaded', () => {
       joinType
     }));
 
-    // Navigate to step 2
-    window.location.href = '/terms.html';
+    // Navigate to step 2 with transition
+    const card = document.querySelector('.form-card');
+    if (card) {
+      card.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = '/terms.html';
+      }, 300);
+    } else {
+      window.location.href = '/terms.html';
+    }
   });
 });
